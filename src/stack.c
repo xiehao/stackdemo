@@ -9,7 +9,7 @@ struct _stack {
 };
 
 // 工厂函数：根据栈类型创建栈
-stack__t *stack_create(StackType const type) {
+my_stack_t *stack_create(StackType const type) {
     if (type == STACK_TYPE_ARRAY) {
         return create_array_stack(); // 创建顺序存储栈
     } else if (type == STACK_TYPE_LINKED) {
@@ -19,18 +19,18 @@ stack__t *stack_create(StackType const type) {
 }
 
 // 全局封装函数
-void stack_push(stack__t *stack, int const value) {
+void stack_push(my_stack_t *stack, int const value) {
     stack->_->push(stack, value);
 }
 
-int stack_pop(stack__t *stack) {
+int stack_pop(my_stack_t *stack) {
     return stack->_->pop(stack);
 }
 
-bool stack_is_empty(stack__t const *stack) {
+bool stack_is_empty(my_stack_t const *stack) {
     return stack->_->is_empty(stack);
 }
 
-void stack_destroy(stack__t *stack) {
+void stack_destroy(my_stack_t *stack) {
     stack->_->destroy(stack);
 }

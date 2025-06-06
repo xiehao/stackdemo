@@ -3,7 +3,7 @@
 
 int main() {
     // 创建顺序存储栈
-    stack__t *stack = stack_create(STACK_TYPE_ARRAY);
+    my_stack_t *stack = stack_create(STACK_TYPE_ARRAY);
     stack_push(stack, 10);
     stack_push(stack, 20);
     printf("Pop: %d\n", stack_pop(stack));

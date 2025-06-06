@@ -4,10 +4,14 @@
 #include "stack_array.h"   // 包含顺序存储栈的实现
 #include "stack_linked.h"  // 包含链式存储栈的实现
 
+struct _stack {
+    stack_api_t const *_;
+};
+
 // 工厂函数：根据栈类型创建栈
-stack__t *stack_create(StackType type) {
+stack__t *stack_create(StackType const type) {
     if (type == STACK_TYPE_ARRAY) {
-        return create_array_stack();  // 创建顺序存储栈
+        return create_array_stack(); // 创建顺序存储栈
     } else if (type == STACK_TYPE_LINKED) {
         return create_linked_stack(); // 创建链式存储栈
     }
@@ -15,18 +19,18 @@ stack__t *stack_create(StackType type) {
 }
 
 // 全局封装函数
-void stack_push(stack__t *stack, int value) {
-    stack->push(stack, value);
+void stack_push(stack__t *stack, int const value) {
+    stack->_->push(stack, value);
 }
 
 int stack_pop(stack__t *stack) {
-    return stack->pop(stack);
+    return stack->_->pop(stack);
 }
 
-bool stack_is_empty(stack__t *stack) {
-    return stack->is_empty(stack);
+bool stack_is_empty(stack__t const *stack) {
+    return stack->_->is_empty(stack);
 }
 
 void stack_destroy(stack__t *stack) {
-    stack->destroy(stack);
+    stack->_->destroy(stack);
 }

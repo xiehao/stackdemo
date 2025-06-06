@@ -9,11 +9,11 @@ typedef struct {
     stack_api_t const *_;
     int data[MAX_SIZE];
     int top;
-} array_stack_t;
+} stack;
 
 // 顺序存储实现的函数
 static void push(my_stack_t *s, int const value) {
-    array_stack_t *as = (array_stack_t *) s;
+    stack *as = (stack *) s;
     if (as->top >= MAX_SIZE - 1) {
         printf("Stack overflow\n");
         return;
@@ -22,7 +22,7 @@ static void push(my_stack_t *s, int const value) {
 }
 
 static int pop(my_stack_t *s) {
-    array_stack_t *as = (array_stack_t *) s;
+    stack *as = (stack *) s;
     if (as->top < 0) {
         printf("Stack underflow\n");
         return -1;
@@ -31,7 +31,7 @@ static int pop(my_stack_t *s) {
 }
 
 static bool is_empty(my_stack_t const *s) {
-    array_stack_t const *as = (array_stack_t *) s;
+    stack const *as = (stack *) s;
     return as->top == -1;
 }
 
@@ -46,7 +46,7 @@ static stack_api_t const api = {
 
 // 创建顺序存储栈
 my_stack_t *create_array_stack() {
-    array_stack_t *as = (array_stack_t *) malloc(sizeof(array_stack_t));
+    stack *as = (stack *) malloc(sizeof(stack));
     as->top = -1;
     as->_ = &api;
     return (my_stack_t *) as;

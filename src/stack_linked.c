@@ -11,11 +11,11 @@ typedef struct _node {
 typedef struct {
     stack_api_t const *_;
     _node *head;
-} linked_stack_t;
+} stack;
 
 // 链式存储实现的函数
 static void push(my_stack_t *s, int const value) {
-    linked_stack_t *ls = (linked_stack_t *) s;
+    stack *ls = (stack *) s;
     _node *newNode = (_node *) malloc(sizeof(_node));
     newNode->value = value;
     newNode->next = ls->head;
@@ -23,7 +23,7 @@ static void push(my_stack_t *s, int const value) {
 }
 
 static int pop(my_stack_t *s) {
-    linked_stack_t *ls = (linked_stack_t *) s;
+    stack *ls = (stack *) s;
     if (!ls->head) {
         printf("Stack underflow\n");
         return -1;
@@ -36,12 +36,12 @@ static int pop(my_stack_t *s) {
 }
 
 static bool is_empty(my_stack_t const *s) {
-    linked_stack_t const *ls = (linked_stack_t *) s;
+    stack const *ls = (stack *) s;
     return ls->head == NULL;
 }
 
 static void destroy(my_stack_t *s) {
-    linked_stack_t const *ls = (linked_stack_t *) s;
+    stack const *ls = (stack *) s;
     _node *current = ls->head;
     while (current) {
         _node *temp = current;
@@ -60,7 +60,7 @@ static stack_api_t const api = {
 
 // 创建链式存储栈
 my_stack_t *create_linked_stack() {
-    linked_stack_t *ls = (linked_stack_t *) malloc(sizeof(linked_stack_t));
+    stack *ls = (stack *) malloc(sizeof(stack));
     ls->head = NULL;
     ls->_ = &api;
     return (my_stack_t *) ls;

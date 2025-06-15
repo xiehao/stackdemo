@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "stack_internal.h"
+#include "traits_internal.h"
+#include "stack.h"
 
 typedef struct _node {
     int value;
@@ -9,12 +10,12 @@ typedef struct _node {
 } _node;
 
 typedef struct {
-    stack_api_t const *_;
+    base_trait_t const *_;
     _node *head;
 } stack;
 
 // 链式存储实现的函数
-static void push(my_stack_t *s, int const value) {
+static void push(container_pt s, int const value) {
     stack *ls = (stack *) s;
     _node *newNode = (_node *) malloc(sizeof(_node));
     newNode->value = value;
@@ -22,7 +23,7 @@ static void push(my_stack_t *s, int const value) {
     ls->head = newNode;
 }
 
-static int pop(my_stack_t *s) {
+static int pop(container_pt s) {
     stack *ls = (stack *) s;
     if (!ls->head) {
         printf("Stack underflow\n");
@@ -35,12 +36,12 @@ static int pop(my_stack_t *s) {
     return value;
 }
 
-static bool is_empty(my_stack_t const *s) {
+static bool is_empty(const_container_pt s) {
     stack const *ls = (stack *) s;
     return ls->head == NULL;
 }
 
-static void destroy(my_stack_t *s) {
+static void destroy(container_pt s) {
     stack const *ls = (stack *) s;
     _node *current = ls->head;
     while (current) {
@@ -51,17 +52,37 @@ static void destroy(my_stack_t *s) {
     free(s);
 }
 
-static stack_api_t const api = {
-    .push = push,
-    .pop = pop,
+static common_trait_t const common_trait = {
     .is_empty = is_empty,
     .destroy = destroy,
+};
+
+static stack_trait_t const stack_trait = {
+    .push = push,
+    .pop = pop,
+};
+
+static char const *get_name() { return "stack"; }
+static void const *query_trait(trait_id_t id) {
+  switch (id) {
+  case TRAIT_ID_COMMON:
+    return &common_trait;
+  case TRAIT_ID_STACK:
+    return &stack_trait;
+  default:
+    return NULL;
+  }
+}
+
+static base_trait_t const base_trait = {
+    .get_type_name = get_name,
+    .query_trait = query_trait,
 };
 
 // 创建链式存储栈
 my_stack_t *create_linked_stack() {
     stack *ls = (stack *) malloc(sizeof(stack));
     ls->head = NULL;
-    ls->_ = &api;
+    ls->_ = &base_trait;
     return (my_stack_t *) ls;
 }
